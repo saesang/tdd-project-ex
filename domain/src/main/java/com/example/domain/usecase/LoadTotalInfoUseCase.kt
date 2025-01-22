@@ -7,12 +7,7 @@ class LoadTotalInfoUseCase(
     private val totalInfoRepository: TotalInfoRepository
 ) {
     suspend operator fun invoke(username: String): TotalInfoData {
-        val isDataInDb = totalInfoRepository.checkTotalInfoInDb(username)
-
-        return if (isDataInDb) {
-            totalInfoRepository.getTotalInfo(username)
-        } else {
-            totalInfoRepository.fetchTotalInfo(username)
-        }
+        // 로직 수정: getTotalInfo 호출 -> 데이터 반환 but null 이면 fetchTotalInfo 호출
+        return totalInfoRepository.getTotalInfo(username) ?: totalInfoRepository.fetchTotalInfo(username)
     }
 }
