@@ -33,15 +33,15 @@ android {
         jvmTarget = "11"
     }
 }
-
+tasks.withType<Test> {
+    useJUnitPlatform()
+}
 dependencies {
     implementation(project(":domain"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
     // hilt
@@ -56,4 +56,19 @@ dependencies {
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
     ksp(libs.androidx.room.compiler)
+
+    // JUnit5
+    testImplementation(libs.junit.jupiter)
+    testRuntimeOnly(libs.junit.jupiter.engine)
+
+    // 안드로이드 JUnit5
+    androidTestImplementation(libs.android.test.core)
+    androidTestRuntimeOnly(libs.android.test.runner)
+
+    // Mockito
+    testImplementation(libs.mockito.core)
+    testImplementation(libs.mockito.kotlin)
+
+    // Kotlin Coroutines 테스트
+    testImplementation(libs.kotlinx.coroutines.test)
 }
