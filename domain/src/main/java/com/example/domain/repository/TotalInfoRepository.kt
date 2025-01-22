@@ -7,7 +7,7 @@ interface TotalInfoRepository {
     suspend fun checkTotalInfoInDb(username: String): Boolean
 
     // DB 요청
-    suspend fun getTotalInfo(username: String): TotalInfoData?
+    suspend fun getTotalInfo(username: String): TotalInfoData
 
     // 서버 요청
     suspend fun fetchTotalInfo(username: String): TotalInfoData
