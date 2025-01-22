@@ -29,7 +29,7 @@ class LoadTotalInfoUseCaseUnitTest {
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test
-    @DisplayName("DB 내 데이터가 존재하면, DB에서 해당 TotalInfoData를 반환한다.")
+    @DisplayName("totalInfoRepository.getTotalInfo()를 호출한다.")
     fun should_GetTotalInfoFromDb_When_IsDataInDb() = runTest {
         // getTotalInfo 호출
         val username = "testUser"
@@ -52,7 +52,7 @@ class LoadTotalInfoUseCaseUnitTest {
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test
-    @DisplayName("DB 내 데이터가 존재하지 않으면, 서버에서 TotalInfoData를 반환한다.")
+    @DisplayName("DB 내 데이터가 존재하지 않으면, totalInfoRepository.fetchTotalInfo()를 호출한다.")
     fun should_FetchTotalInfoFromServer_When_IsNotDataInDb() = runTest {
         // getTotalInfo 호출 -> null 반환 -> fetchTotalInfo 호출
         val username = "testUser"
