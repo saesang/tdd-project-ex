@@ -2,6 +2,7 @@ package com.example.presentation
 
 import com.example.domain.model.TotalInfoData
 import com.example.domain.repository.TotalInfoRepository
+import com.example.domain.usecase.LoadTotalInfoUseCase
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.assertEquals
