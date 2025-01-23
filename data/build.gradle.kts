@@ -68,6 +68,7 @@ dependencies {
     // Mockito
     testImplementation(libs.mockito.core)
     testImplementation(libs.mockito.kotlin)
+    testImplementation (libs.mockk.mockk)
 
     // Kotlin Coroutines 테스트
     testImplementation(libs.kotlinx.coroutines.test)

@@ -18,6 +18,7 @@ jetbrainsKotlinJvm = "1.9.24"
 
 mockitoCore = "4.8.1"
 mockitoKotlin = "4.1.0"
+mockkVersion = "1.13.14"
 roomRuntime = "2.6.1"
 hiltAndroidVersion = "2.51.1"
 retrofit = "2.9.0"
@@ -56,6 +57,7 @@ hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hiltA
 hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hiltAndroidVersion" }
 
 #retrofit
+mockk-mockk = { module = "io.mockk:mockk", version.ref = "mockkVersion" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
 
