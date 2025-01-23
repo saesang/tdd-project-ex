@@ -29,9 +29,9 @@ class LoadTotalInfoUseCaseUnitTest {
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test
-    @DisplayName("DB 내 데이터가 존재하면, DB에서 해당 TotalInfoData를 반환한다.")
-    fun should_GetTotalInfoFromDb_When_IsDataInDb() = runTest {
-        // getTotalInfo 호출
+    @DisplayName("DB 내 데이터가 존재하면 getTotalInfo() 호출 시 TotalDataInfo가 반환된다.")
+    fun getTotalInfoFromDbWhenDataInDb() = runTest {
+        // data 존재 -> getTotalInfo 호출 -> TotalInfoData 반환
         val username = "testUser"
         val mockData = TotalInfoData(username = username, date = "2025-01-22", content = "Sample Content", age = 28, personality = "긍정적")
 
@@ -41,7 +41,6 @@ class LoadTotalInfoUseCaseUnitTest {
         val result = loadTotalInfoUseCase(username)
 
         // 결과 관련 검증
-        assertNotNull(result)
         assertEquals(username, result.username)
         assertTrue(result.content.isNotEmpty(), "result.content는 빈 값이 아니다.")
 
@@ -52,9 +51,9 @@ class LoadTotalInfoUseCaseUnitTest {
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test
-    @DisplayName("DB 내 데이터가 존재하지 않으면, 서버에서 TotalInfoData를 반환한다.")
-    fun should_FetchTotalInfoFromServer_When_IsNotDataInDb() = runTest {
-        // getTotalInfo 호출 -> null 반환 -> fetchTotalInfo 호출
+    @DisplayName("DB 내 데이터가 존재하지 않으면 getTotalInfo() 호출 시 null값이 반환되고, fetchTotalInfo()가 호출된다.")
+    fun fetchTotalInfoFromServerWhenDataNotInDb() = runTest {
+        // data 존재 x -> getTotalInfo 호출 -> null 반환 -> fetchTotalInfo 호출 -> TotalInfoData 반환
         val username = "testUser"
         val mockData = TotalInfoData(username = username, date = "2025-01-22", content = "Sample Content", age = 28, personality = "긍정적")
 

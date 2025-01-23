@@ -1,5 +1,6 @@
 [versions]
 agp = "8.8.0"
+androidTestCore = "1.3.0"
 fragmentKtx = "1.8.5"
 junitJupiter = "5.9.2"
 kotlin = "2.0.21"
@@ -17,6 +18,7 @@ jetbrainsKotlinJvm = "1.9.24"
 
 mockitoCore = "4.8.1"
 mockitoKotlin = "4.1.0"
+mockkVersion = "1.13.14"
 roomRuntime = "2.6.1"
 hiltAndroidVersion = "2.51.1"
 retrofit = "2.9.0"
@@ -26,6 +28,8 @@ hiltPluginVersion = "2.51.1"
 kspVersion = "2.0.21-1.0.27"    #kotlin이랑 버전 꼭 맞추기
 
 [libraries]
+android-test-core = { module = "de.mannodermaus.junit5:android-test-core", version.ref = "androidTestCore" }
+android-test-runner = { module = "de.mannodermaus.junit5:android-test-runner", version.ref = "androidTestCore" }
 androidx-activity-ktx = { module = "androidx.activity:activity-ktx", version.ref = "activity" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-fragment-ktx = { module = "androidx.fragment:fragment-ktx", version.ref = "fragmentKtx" }
@@ -53,6 +57,7 @@ hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hiltA
 hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hiltAndroidVersion" }
 
 #retrofit
+mockk-mockk = { module = "io.mockk:mockk", version.ref = "mockkVersion" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
 
