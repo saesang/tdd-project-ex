@@ -1,8 +1,8 @@
-package com.example.presentation
+package com.example.presentation.state
 
 sealed class BaseState<out T>(val data : T?)  {
     companion object {
-        val initial = BaseState.None
+        val initial = None
     }
     data object None: BaseState<Nothing>(data = null)
     data object Loading : BaseState<Nothing>(data = null)
