@@ -7,3 +7,11 @@ data class TotalInfoData(
     val personality: String,
     val content: String
 )
+
+fun TotalInfoData.isEmpty(): Boolean {
+    return this.date.isEmpty() &&
+            this.username.isEmpty() &&
+            this.age == 0 &&
+            this.personality.isEmpty() &&
+            this.content.isEmpty()
+}
