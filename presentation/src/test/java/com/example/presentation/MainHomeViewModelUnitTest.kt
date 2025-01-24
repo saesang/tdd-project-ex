@@ -12,24 +12,16 @@ import org.mockito.kotlin.mock
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
 
-
 class MainHomeViewModelUnitTest {
     private lateinit var loadTotalInfoUseCase: LoadTotalInfoUseCase
     private lateinit var mainHomeViewModel: MainHomeViewModel
 
-    private val initialState = MainHomeUiState(
-        isUsernameClear = true,
-        isBtnSaveVisible = true,
-        isBtnSaveEnabled = false,
-        isBtnBackVisible = false,
-        isTextFortuneVisible = false,
-        totalInfoData = null
-    )
+    private val initialState = MainHomeUiState()
 
     @BeforeEach
     fun setUp() {
         loadTotalInfoUseCase = mock()
-        mainHomeViewModel = MainHomeViewModel()
+        mainHomeViewModel = MainHomeViewModel(loadTotalInfoUseCase)
     }
 
     /*
@@ -53,7 +45,7 @@ class MainHomeViewModelUnitTest {
     @Test
     @DisplayName("ui 상태를 초기화한다.")
     fun updatesMainUiStateToInitialStateWhenTriggered() =runTest {
-        val result = MainHomeViewmModel.setInitUiState()
+        val result = mainHomeViewModel.setInitUiState()
 
         // 결과 검증
         assertEquals(result, initialState)
@@ -64,7 +56,7 @@ class MainHomeViewModelUnitTest {
     fun setBtnSaveEnabledWhenTriggered() =runTest {
         val state = initialState.copy(isUsernameClear = false, isBtnSaveEnabled = true)
 
-        val result = MainHomeViewmModel.setBtnSaveEnabled()
+        val result = mainHomeViewModel.setBtnSaveEnabled()
 
         // 결과 검증
         assertEquals(result, state)
@@ -80,7 +72,7 @@ class MainHomeViewModelUnitTest {
         // loadTotalInfoUseCase은 성공, totalInfoData.isNotEmpty()라고 가정
         whenever(loadTotalInfoUseCase.invoke(username)).thenReturn(mockData)
 
-        val result = MainHomeViewModel.updateUiState()
+        val result = mainHomeViewModel.updateUiState(username)
 
         // 결과 검증
         assertEquals(result, state)
@@ -93,13 +85,13 @@ class MainHomeViewModelUnitTest {
     @DisplayName("loadTotalInfoUseCase 호출 시 totalInfoData.isEmpty()면 운세 텍스트에 '현재 운세를 불러올 수 없습니다.'가 나타나고, 확인 버튼이 사라지고, 다시하기 버튼이 나타난다.")
     fun setBtnSaveGoneAndBtnBackVisibleAndTextFortuneVisibleWhenTotalInfoDataEmpty() =runTest {
         val username = "testUser"
-        val mockData = TotalInfoData(username = "", date = "", content = "", age = 0, personality = "")
+        val mockData = TotalInfoData(username = "", date = "", content = "현재 운세를 불러올 수 없습니다.", age = 0, personality = "")
         val state = initialState.copy(isBtnSaveVisible = false, isTextFortuneVisible = true, isBtnBackVisible = true, totalInfoData = mockData)
 
         // loadTotalInfoUseCase은 성공, totalInfoData.isEmpty()라고 가정
         whenever(loadTotalInfoUseCase.invoke(username)).thenReturn(mockData)
 
-        val result = MainHomeViewModel.updateUiState()
+        val result = mainHomeViewModel.updateUiState(username)
 
         // 결과 검증
         assertEquals(result, state)

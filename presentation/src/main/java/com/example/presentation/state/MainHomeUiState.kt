@@ -3,10 +3,10 @@ package com.example.presentation.state
 import com.example.domain.model.TotalInfoData
 
 data class MainHomeUiState(
-    val isUsernameClear: Boolean,
-    val isBtnSaveVisible: Boolean,
-    val isBtnSaveEnabled: Boolean,
-    val isBtnBackVisible: Boolean,
-    val isTextFortuneVisible: Boolean,
-    val totalInfoData: TotalInfoData?
+    val isUsernameClear: Boolean = true,
+    val isBtnSaveVisible: Boolean = true,
+    val isBtnSaveEnabled: Boolean = false,
+    val isBtnBackVisible: Boolean = true,
+    val isTextFortuneVisible: Boolean = false,
+    val totalInfoData: TotalInfoData? = null
 )
