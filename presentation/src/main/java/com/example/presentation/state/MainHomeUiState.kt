@@ -5,7 +5,8 @@ import com.example.domain.model.TotalInfoData
 data class MainHomeUiState(
     val isUsernameClear: Boolean = true,
     val isBtnSaveVisible: Boolean = true,
-    val isBtnBackVisible: Boolean = false,
+    val isBtnSaveEnabled: Boolean = false,
+    val isBtnBackVisible: Boolean = true,
     val isTextFortuneVisible: Boolean = false,
-    val totalInfoData: TotalInfoData
+    val totalInfoData: TotalInfoData? = null
 )
