@@ -62,4 +62,6 @@ dependencies {
     // room
     implementation(libs.androidx.room.runtime)
     ksp(libs.androidx.room.compiler)
+
+    implementation(libs.androidx.appcompat.v161)
 }
