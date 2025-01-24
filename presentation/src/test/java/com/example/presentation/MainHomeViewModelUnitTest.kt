@@ -2,15 +2,18 @@ package com.example.presentation
 
 import com.example.domain.model.TotalInfoData
 import com.example.domain.usecase.LoadTotalInfoUseCase
+import com.example.presentation.state.BaseState
 import com.example.presentation.state.MainHomeUiState
+import io.mockk.coEvery
+import io.mockk.coVerify
+import io.mockk.mockk
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
-import org.mockito.kotlin.mock
-import org.mockito.kotlin.verify
-import org.mockito.kotlin.whenever
 
 class MainHomeViewModelUnitTest {
     private lateinit var loadTotalInfoUseCase: LoadTotalInfoUseCase
@@ -20,7 +23,7 @@ class MainHomeViewModelUnitTest {
 
     @BeforeEach
     fun setUp() {
-        loadTotalInfoUseCase = mock()
+        loadTotalInfoUseCase = mockk()
         mainHomeViewModel = MainHomeViewModel(loadTotalInfoUseCase)
     }
 
@@ -42,61 +45,90 @@ class MainHomeViewModelUnitTest {
     : MainHomeUiState()
      */
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     @DisplayName("ui 상태를 초기화한다.")
-    fun updatesMainUiStateToInitialStateWhenTriggered() =runTest {
-        val result = mainHomeViewModel.setInitUiState()
+    fun updatesMainUiStateToInitialStateWhenTriggered() = runTest {
+        mainHomeViewModel.setInitUiState()
+        val result = mainHomeViewModel.mainHomeUiState.first()
 
         // 결과 검증
-        assertEquals(result, initialState)
+        assertEquals(result, BaseState.Success(initialState))
     }
 
     @Test
     @DisplayName("사용자 이름이 입력되고, 확인 버튼이 활성화 된다.")
-    fun setBtnSaveEnabledWhenTriggered() =runTest {
+    fun setBtnSaveEnabledWhenTriggered() = runTest {
         val state = initialState.copy(isUsernameClear = false, isBtnSaveEnabled = true)
 
-        val result = mainHomeViewModel.setBtnSaveEnabled()
+        mainHomeViewModel.setBtnSaveEnabled()
+        val result = mainHomeViewModel.mainHomeUiState.first()
 
         // 결과 검증
-        assertEquals(result, state)
+        assertEquals(result, BaseState.Success(state))
     }
 
     @Test
     @DisplayName("loadTotalInfoUseCase 호출 시 totalInfoData.isNotEmpty()면 운세 텍스트가 업데이트 된 후 나타나고, 확인 버튼이 사라지고, 다시하기 버튼이 나타난다.")
-    fun setBtnSaveGoneAndBtnBackVisibleAndTextFortuneVisibleWhenTotalInfoDataNotEmpty() =runTest {
+    fun setBtnSaveGoneAndBtnBackVisibleAndTextFortuneVisibleWhenTotalInfoDataNotEmpty() = runTest {
         val username = "testUser"
-        val mockData = TotalInfoData(username = username, date = "2025-01-22", content = "Sample Content", age = 28, personality = "긍정적")
-        val state = initialState.copy(isBtnSaveVisible = false, isTextFortuneVisible = true, isBtnBackVisible = true, totalInfoData = mockData)
+        val mockData = TotalInfoData(
+            username = username,
+            date = "2025-01-22",
+            content = "Sample Content",
+            age = 28,
+            personality = "긍정적"
+        )
+        val state = initialState.copy(
+            isBtnSaveVisible = false,
+            isTextFortuneVisible = true,
+            isBtnBackVisible = true,
+            totalInfoData = mockData
+        )
 
         // loadTotalInfoUseCase은 성공, totalInfoData.isNotEmpty()라고 가정
-        whenever(loadTotalInfoUseCase.invoke(username)).thenReturn(mockData)
+        // whenever(loadTotalInfoUseCase.invoke(username)).thenReturn(mockData) 이거 대신 하기 방식 쓰기 ->MockK에서 코루틴 함수 설정
+        coEvery { loadTotalInfoUseCase.invoke(username) } returns mockData
 
-        val result = mainHomeViewModel.updateUiState(username)
+        mainHomeViewModel.updateUiState(username)
+        val result = mainHomeViewModel.mainHomeUiState.first()
 
         // 결과 검증
-        assertEquals(result, state)
+        assertEquals(result, BaseState.Success(state))
 
         // 호출 관련 검증
-        verify(loadTotalInfoUseCase).invoke(username)
+        coVerify { loadTotalInfoUseCase.invoke(username) }
     }
 
     @Test
     @DisplayName("loadTotalInfoUseCase 호출 시 totalInfoData.isEmpty()면 운세 텍스트에 '현재 운세를 불러올 수 없습니다.'가 나타나고, 확인 버튼이 사라지고, 다시하기 버튼이 나타난다.")
-    fun setBtnSaveGoneAndBtnBackVisibleAndTextFortuneVisibleWhenTotalInfoDataEmpty() =runTest {
+    fun setBtnSaveGoneAndBtnBackVisibleAndTextFortuneVisibleWhenTotalInfoDataEmpty() = runTest {
         val username = "testUser"
-        val mockData = TotalInfoData(username = "", date = "", content = "현재 운세를 불러올 수 없습니다.", age = 0, personality = "")
-        val state = initialState.copy(isBtnSaveVisible = false, isTextFortuneVisible = true, isBtnBackVisible = true, totalInfoData = mockData)
+        val mockData = TotalInfoData(
+            username = "",
+            date = "",
+            content = "현재 운세를 불러올 수 없습니다.",
+            age = 0,
+            personality = ""
+        )
+        val state = initialState.copy(
+            isBtnSaveVisible = false,
+            isTextFortuneVisible = true,
+            isBtnBackVisible = true,
+            totalInfoData = mockData
+        )
 
         // loadTotalInfoUseCase은 성공, totalInfoData.isEmpty()라고 가정
-        whenever(loadTotalInfoUseCase.invoke(username)).thenReturn(mockData)
+        // whenever(loadTotalInfoUseCase.invoke(username)).thenReturn(mockData) 이거 대신 하기 방식 쓰기 ->MockK에서 코루틴 함수 설정
+        coEvery { loadTotalInfoUseCase.invoke(username) } returns mockData
 
-        val result = mainHomeViewModel.updateUiState(username)
+        mainHomeViewModel.updateUiState(username)
+        val result = mainHomeViewModel.mainHomeUiState.first()
 
         // 결과 검증
-        assertEquals(result, state)
+        assertEquals(result, BaseState.Success(state))
 
         // 호출 관련 검증
-        verify(loadTotalInfoUseCase).invoke(username)
+        coVerify { loadTotalInfoUseCase.invoke(username) }
     }
 }
