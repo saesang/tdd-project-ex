@@ -6,6 +6,7 @@ import com.example.domain.model.isEmpty
 import com.example.domain.usecase.LoadTotalInfoUseCase
 import com.example.presentation.state.BaseState
 import com.example.presentation.state.MainHomeUiState
+import com.example.presentation.util.TextValidator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -21,12 +22,17 @@ class MainHomeViewModel @Inject constructor(
     private val initialState = MainHomeUiState()
 
     suspend fun setInitUiState() {
-        _mainHomeUiState.emit(BaseState.Success(initialState))
+        _mainHomeUiState.value = BaseState.Success(initialState)
+    }
+
+    suspend fun onTextChanged(inputName: String) {
+        val state = initialState.copy(isUsernameClear = false, isBtnSaveEnabled = TextValidator.isValidText(inputName))
+        _mainHomeUiState.value = BaseState.Success(state)
     }
 
     suspend fun setBtnSaveEnabled() {
         val state = initialState.copy(isUsernameClear = false, isBtnSaveEnabled = true)
-        _mainHomeUiState.emit(BaseState.Success(state))
+        _mainHomeUiState.value = BaseState.Success(state)
     }
 
     suspend fun updateUiState(username: String) {
@@ -40,6 +46,6 @@ class MainHomeViewModel @Inject constructor(
             state = initialState.copy(isBtnSaveVisible = false, isTextFortuneVisible = true, isBtnBackVisible = true, totalInfoData = totalInfoData)
         }
 
-        _mainHomeUiState.emit(BaseState.Success(state))
+        _mainHomeUiState.value = BaseState.Success(state)
     }
 }

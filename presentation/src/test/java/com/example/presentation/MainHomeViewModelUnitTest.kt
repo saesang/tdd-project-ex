@@ -7,10 +7,11 @@ import com.example.presentation.state.MainHomeUiState
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertFalse
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
@@ -45,7 +46,42 @@ class MainHomeViewModelUnitTest {
     : MainHomeUiState()
      */
 
-    @OptIn(ExperimentalCoroutinesApi::class)
+
+    @Test
+    @DisplayName("inputName이 입력되면 유효한 이름인지 검증한다.")
+    fun setBtnSaveEnabledWhenTextIsEntered() = runTest {
+        // 초기 상태: 버튼은 비활성화되어야 한다
+        assertFalse(mainHomeViewModel.mainHomeUiState.first().result.isBtnSaveEnabled)
+
+        // 유효한 텍스트 입력: 알파벳만 입력
+        mainHomeViewModel.onTextChanged("seha")
+        assertTrue(mainHomeViewModel.mainHomeUiState.first().result.isBtnSaveEnabled)
+
+        // 유효한 텍스트 입력: 알파벳과 1개의 공백 입력
+        mainHomeViewModel.onTextChanged("seha tak")
+        assertTrue(mainHomeViewModel.mainHomeUiState.first().result.isBtnSaveEnabled)
+
+        // 유효한 텍스트 입력: 한글만 입력
+        mainHomeViewModel.onTextChanged("탁세하")
+        assertTrue(mainHomeViewModel.mainHomeUiState.first().result.isBtnSaveEnabled)
+
+        // 무효한 텍스트 입력: 공백만 포함
+        mainHomeViewModel.onTextChanged("     ")
+        assertFalse(mainHomeViewModel.mainHomeUiState.first().result.isBtnSaveEnabled)
+
+        // 무효한 텍스트 입력: 특수문자 포함
+        mainHomeViewModel.onTextChanged("seha!")
+        assertFalse(mainHomeViewModel.mainHomeUiState.first().result.isBtnSaveEnabled)
+
+        // 무효한 텍스트 입력: 알파벳과 한글이 혼합
+        mainHomeViewModel.onTextChanged("hello 세하")
+        assertFalse(mainHomeViewModel.mainHomeUiState.first().result.isBtnSaveEnabled)
+
+        // 무효한 텍스트 입력: 알파벳과 2개 이상의 공백
+        mainHomeViewModel.onTextChanged("hello   seha")
+        assertFalse(mainHomeViewModel.mainHomeUiState.first().result.isBtnSaveEnabled)
+    }
+
     @Test
     @DisplayName("ui 상태를 초기화한다.")
     fun updatesMainUiStateToInitialStateWhenTriggered() = runTest {
