@@ -1,9 +1,5 @@
 package com.example.data.repositoryImpl
 
-import android.util.Log
-import androidx.room.PrimaryKey
-import com.example.data.dto.FortuneInfoDto
-import com.example.data.dto.UserInfoDto
 import com.example.data.mapper.TotalInfoMapper
 import com.example.data.retrofit.ServerApi
 import com.example.data.room.TodayFortuneDb
@@ -16,14 +12,13 @@ import javax.inject.Inject
 class TotalInfoRepositoryImpl @Inject constructor(
     private val serverApi: ServerApi,
     private val todayFortuneDb: TodayFortuneDb,
-    private val mapper: TotalInfoMapper
 ) : TotalInfoRepository {
     override suspend fun getTotalInfo(username: String): TotalInfoData? {
         try {
             val totalInfoEntity =
                 todayFortuneDb.dao().getTotalInfoByUsername(username).firstOrNull()
 
-            return mapper.mapperToTotalInfoData(totalInfoEntity)
+            return TotalInfoMapper.mapperToTotalInfoData(totalInfoEntity)
         } catch (e: RuntimeException) {
             when {
                 e.message?.contains("DB 에러") == true -> {
@@ -45,8 +40,8 @@ class TotalInfoRepositoryImpl @Inject constructor(
             safeApiCall({ serverApi.fetchFortuneInfo(username) }, "fetchFortuneInfo 실패")
 
         return if (userInfo != null && fortuneInfo != null) {
-            val totalInfoEntity = mapper.mapperToTotalInfoEntity(fortuneInfo, userInfo)
-            returnData = mapper.mapperToTotalInfoData(totalInfoEntity)!!
+            val totalInfoEntity = TotalInfoMapper.mapperToTotalInfoEntity(fortuneInfo, userInfo)
+            returnData = TotalInfoMapper.mapperToTotalInfoData(totalInfoEntity)!!
             try {
                 todayFortuneDb.dao().insertTotalInfo(totalInfoEntity)
             } catch (e: RuntimeException) {
