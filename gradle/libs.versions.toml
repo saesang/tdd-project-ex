@@ -5,7 +5,6 @@ androidxJunit = "1.1.5"
 appcompatVersion = "1.6.1"
 fragmentKtx = "1.8.5"
 hamcrestHamcrestLibrary = "2.2"
-hiltAndroidTesting = "2.51.1"
 junitJupiter = "5.9.2"
 kotlin = "2.0.21"
 coreKtx = "1.15.0"
@@ -34,22 +33,20 @@ kspVersion = "2.0.21-1.0.27"    #kotlin이랑 버전 꼭 맞추기
 rules = "1.6.1"
 runner = "1.6.2"
 junitKtx = "1.2.1"
+core = "1.47.0"
 
 [libraries]
 android-test-core = { module = "de.mannodermaus.junit5:android-test-core", version.ref = "androidTestCore" }
 android-test-runner = { module = "de.mannodermaus.junit5:android-test-runner", version.ref = "androidTestCore" }
 androidx-activity-ktx = { module = "androidx.activity:activity-ktx", version.ref = "activity" }
-androidx-appcompat-v161 = { module = "androidx.appcompat:appcompat", version.ref = "appcompatVersion" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-fragment-ktx = { module = "androidx.fragment:fragment-ktx", version.ref = "fragmentKtx" }
 androidx-fragment-testing = { module = "androidx.fragment:fragment-testing", version.ref = "fragmentKtx" }
-androidx-junit-v115 = { module = "androidx.test.ext:junit", version.ref = "androidxJunit" }
 androidx-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycleViewmodelKtx" }
 androidx-rules = { module = "androidx.test:rules", version.ref = "rules" }
 androidx-runner = { module = "androidx.test:runner", version.ref = "runner" }
 hamcrest-hamcrest-library = { module = "org.hamcrest:hamcrest-library", version.ref = "hamcrestHamcrestLibrary" }
-hilt-android-testing = { module = "com.google.dagger:hilt-android-testing", version.ref = "hiltAndroidTesting" }
-hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hiltAndroidTesting" }
+hilt-android-testing = { module = "com.google.dagger:hilt-android-testing", version.ref = "hiltAndroidVersion" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
@@ -82,6 +79,7 @@ converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref
 androidx-datastore-core = { module = "androidx.datastore:datastore-core", version.ref = "datastorePreferences" }
 androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastorePreferences" }
 androidx-junit-ktx = { group = "androidx.test.ext", name = "junit-ktx", version.ref = "junitKtx" }
+core = { group = "com.google.ar", name = "core", version.ref = "core" }
 
 
 [plugins]
@@ -92,4 +90,3 @@ jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "jetbrai
 
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hiltPluginVersion" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "kspVersion"}
-

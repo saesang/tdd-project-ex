@@ -37,15 +37,6 @@ android {
     viewBinding {
         enable = true
     }
-
-    // 충돌 방지
-    packaging {
-        resources {
-            pickFirsts += "META-INF/LICENSE-notice.md"
-            pickFirsts += "META-INF/LICENSE.md"
-            pickFirsts += "META-INF/NOTICE"
-        }
-    }
 }
 tasks.withType<Test> {
     useJUnitPlatform()
@@ -68,9 +59,12 @@ dependencies {
 
     // 안드로이드 Test
     androidTestImplementation(libs.androidx.runner)
-    androidTestImplementation(libs.androidx.junit.v115)
     androidTestImplementation(libs.androidx.rules)
     debugImplementation(libs.androidx.fragment.testing)
+
+    // hilt 안드로이드 테스트
+    androidTestImplementation(libs.hilt.android.testing)
+    kspAndroidTest(libs.hilt.android.compiler)
 
     // viewmodel
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
