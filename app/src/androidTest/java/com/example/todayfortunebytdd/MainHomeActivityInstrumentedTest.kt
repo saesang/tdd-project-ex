@@ -1,27 +1,36 @@
-package com.example.presentation
+package com.example.todayfortunebytdd
 
+import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.clearText
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.closeSoftKeyboard
-import androidx.test.espresso.action.ViewActions.typeText
+import androidx.test.espresso.action.ViewActions.replaceText
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.isEnabled
 import androidx.test.espresso.matcher.ViewMatchers.withEffectiveVisibility
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
-import androidx.test.ext.junit.rules.ActivityScenarioRule
-import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.example.presentation.MainHomeActivity
+import com.example.presentation.R
+import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
 import org.hamcrest.Matchers.not
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
 
-@RunWith(AndroidJUnit4::class)
+@HiltAndroidTest
 class MainHomeActivityInstrumentedTest {
     @get:Rule
-    val activityRule = ActivityScenarioRule(MainHomeActivity::class.java)
+    val hiltRule = HiltAndroidRule(this)
+
+    @Before
+    fun setup() {
+        hiltRule.inject() // Hilt 의존성 주입
+        ActivityScenario.launch(MainHomeActivity::class.java)
+    }
 
     @Test
     // 유효 이름이 입력되면 btnSave가 활성화, 유효하지 않은 이름이 입력되면 btnSave가 비활성화된다.
@@ -31,19 +40,19 @@ class MainHomeActivityInstrumentedTest {
 
         // 유효 이름
         onView(withId(R.id.input_name))
-            .perform(typeText("seha"), closeSoftKeyboard())
+            .perform(replaceText("seha"), closeSoftKeyboard())
         //버튼 활성화 확인
         onView(withId(R.id.btn_save)).check(matches(isEnabled()))
 
         // 무효 이름
         onView(withId(R.id.input_name))
-            .perform(clearText(), typeText("seha  "), closeSoftKeyboard())
+            .perform(clearText(), replaceText("seha  "), closeSoftKeyboard())
         // 버튼 비활성화 확인
         onView(withId(R.id.btn_save)).check(matches(not(isEnabled())))
 
         // 유효 이름
         onView(withId(R.id.input_name))
-            .perform(typeText("세하"), closeSoftKeyboard())
+            .perform(replaceText("세하"), closeSoftKeyboard())
         //버튼 활성화 확인
         onView(withId(R.id.btn_save)).check(matches(isEnabled()))
 
@@ -59,7 +68,7 @@ class MainHomeActivityInstrumentedTest {
     fun updateUiStateWhenBtnSaveClicked() {
         // 초기 상태: 유효 이름 입력
         onView(withId(R.id.input_name))
-            .perform(typeText("세하"), closeSoftKeyboard())
+            .perform(replaceText("세하"), closeSoftKeyboard())
 
         // btnSave 버튼 클릭
         onView(withId(R.id.btn_save)).perform(click())
