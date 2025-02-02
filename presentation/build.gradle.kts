@@ -25,10 +25,12 @@ android {
             )
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
+
     kotlinOptions {
         jvmTarget = "11"
     }
@@ -49,10 +51,20 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    androidTestImplementation(libs.hamcrest.hamcrest.library)
 
     // hilt
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)
+
+    // 안드로이드 Test
+    androidTestImplementation(libs.androidx.runner)
+    androidTestImplementation(libs.androidx.rules)
+    debugImplementation(libs.androidx.fragment.testing)
+
+    // hilt 안드로이드 테스트
+    androidTestImplementation(libs.hilt.android.testing)
+    kspAndroidTest(libs.hilt.android.compiler)
 
     // viewmodel
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
@@ -70,6 +82,7 @@ dependencies {
     testImplementation(libs.mockito.core)
     testImplementation(libs.mockito.kotlin)
     testImplementation (libs.mockk.mockk)
+    androidTestImplementation(libs.mockk.mockk.android)
 
     // Kotlin Coroutines 테스트
     testImplementation(libs.kotlinx.coroutines.test)

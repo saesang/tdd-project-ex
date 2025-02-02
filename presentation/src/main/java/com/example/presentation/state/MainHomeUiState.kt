@@ -6,7 +6,7 @@ data class MainHomeUiState(
     val isUsernameClear: Boolean = true,
     val isBtnSaveVisible: Boolean = true,
     val isBtnSaveEnabled: Boolean = false,
-    val isBtnBackVisible: Boolean = true,
+    val isBtnBackVisible: Boolean = false,
     val isTextFortuneVisible: Boolean = false,
     val totalInfoData: TotalInfoData? = null
 )
