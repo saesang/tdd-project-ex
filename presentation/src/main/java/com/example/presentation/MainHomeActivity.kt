@@ -3,6 +3,7 @@ package com.example.presentation
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import androidx.activity.enableEdgeToEdge
@@ -49,6 +50,7 @@ class MainHomeActivity : AppCompatActivity() {
                 binding.apply {
                     btnSave.isEnabled = uiState.isBtnSaveEnabled
                     inputName.isEnabled = !uiState.isBtnBackVisible
+                    if (uiState.isUsernameClear) inputName.setText("")
                     btnSave.visibility = if (uiState.isBtnSaveVisible) VISIBLE else GONE
                     textFortune.visibility = if (uiState.isTextFortuneVisible) VISIBLE else GONE
                     btnBack.visibility = if (uiState.isBtnBackVisible) VISIBLE else GONE

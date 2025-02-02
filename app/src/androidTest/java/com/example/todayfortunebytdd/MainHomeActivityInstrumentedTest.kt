@@ -83,8 +83,11 @@ class MainHomeActivityInstrumentedTest {
     // btnBack이 클릭되면 ui가 초기화된다.
     @Test
     fun resetUiStateWhenBtnBackClicked() {
-        // 초기 상태: btnBack.visibility = VISIBLE
-        onView(withId(R.id.btn_back)).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)))
+        // 초기 상태: 유효 이름 입력 및 btnSave 버튼 클릭
+        onView(withId(R.id.input_name))
+            .perform(replaceText("세하"), closeSoftKeyboard())
+        onView(withId(R.id.btn_save)).perform(click())
+
         // btnBack 버튼 클릭
         onView(withId(R.id.btn_back)).perform(click())
 
