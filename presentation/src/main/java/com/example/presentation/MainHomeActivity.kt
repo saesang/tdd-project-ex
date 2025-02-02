@@ -48,6 +48,7 @@ class MainHomeActivity : AppCompatActivity() {
                 val uiState = state.data ?: MainHomeUiState()
                 binding.apply {
                     btnSave.isEnabled = uiState.isBtnSaveEnabled
+                    inputName.isEnabled = !uiState.isBtnBackVisible
                     btnSave.visibility = if (uiState.isBtnSaveVisible) VISIBLE else GONE
                     textFortune.visibility = if (uiState.isTextFortuneVisible) VISIBLE else GONE
                     btnBack.visibility = if (uiState.isBtnBackVisible) VISIBLE else GONE
